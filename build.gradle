@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+}
+
+group = 'com.spribe'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.10.1'
+    implementation 'io.rest-assured:rest-assured:5.4.0'
+    implementation 'io.rest-assured:json-path:5.4.0'
+    implementation 'io.rest-assured:json-schema-validator:5.4.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+    testImplementation 'io.qameta.allure:allure-testng:2.24.0'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.12'
+}
+
+test {
+    useTestNG {
+        suites 'src/test/resources/testng.xml'
+    }
+    testLogging {
+        events "passed", "failed", "skipped"
+    }
+}
+
+allure {
+    version = '2.24.0'
+    autoconfigure = true
+    aspectjweaver = true
+}
