@@ -51,6 +51,8 @@ public class CreatePlayerNegativeTest {
             // Gender tests
             { new CreatePlayerRequestDto(TestDataProvider.getTestPlayer().setGender("")) },
             { new CreatePlayerRequestDto(TestDataProvider.getTestPlayer().setGender(null)) },
+            //BUG-11 Gender could be any value - no input validation
+            //{ new CreatePlayerRequestDto(TestDataProvider.getTestPlayer().setGender("random")) },
             { new CreatePlayerRequestDto(TestDataProvider.getTestPlayer()) {
                 @Override
                 public HashMap<String, Object> toMap() {
@@ -70,6 +72,10 @@ public class CreatePlayerNegativeTest {
                     return map;
                 }
             }},
+            // Password tests
+            // BUG-12 Password min-max length validation not applied
+            //{ new CreatePlayerRequestDto(TestDataProvider.getTestPlayer().setPassword("123456")) },
+            //{ new CreatePlayerRequestDto(TestDataProvider.getTestPlayer().setPassword("1234567890123456")) },
             // Role tests
             { new CreatePlayerRequestDto(TestDataProvider.getTestPlayer().setRole("")) },
             { new CreatePlayerRequestDto(TestDataProvider.getTestPlayer().setRole(null)) },

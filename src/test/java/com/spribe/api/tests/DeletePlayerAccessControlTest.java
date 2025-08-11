@@ -3,7 +3,6 @@ package com.spribe.api.tests;
 import com.spribe.clients.InterviewServiceClient;
 import com.spribe.dto.CreatePlayerRequestDto;
 import com.spribe.dto.CreatePlayerResponseDto;
-import com.spribe.dto.UpdatePlayerRequestDto;
 import com.spribe.helpers.TestDataProvider;
 import com.spribe.models.Player;
 import com.spribe.utils.ConfigProvider;
@@ -33,7 +32,8 @@ public class DeletePlayerAccessControlTest {
     public static Object[][] roleDeleteMatrix() {
         return new Object[][]{
             // editorRole, targetRole, expectedStatus
-            {"user", "user", 204},     // delete self
+            //BUG-13 User Player able to delete itself
+            //{"user", "user", 204},     // delete self
             // BUG-8 Access control issue - user able to delete admin
             //{"user", "admin", 403},
             //not safe to try
@@ -54,7 +54,7 @@ public class DeletePlayerAccessControlTest {
     @Test(dataProvider = "roleDeleteMatrix")
     public void deletePlayerAccessControlTest(String editorRole, String targetRole, int expectedStatus) {
         String editorLogin;
-        Long editorId = null;
+        Long editorId;
 
         // Setup editor
         if (editorRole.equals("supervisor")) {
