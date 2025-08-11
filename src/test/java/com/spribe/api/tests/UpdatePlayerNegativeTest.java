@@ -38,9 +38,12 @@ public class UpdatePlayerNegativeTest {
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setAge(61)), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setAge(200)), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setGender("")), 400 },
+            { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setGender("wrong")), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setGender(null)), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setLogin("")), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setLogin(null)), 400 },
+            { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setPassword("123456")), 400 },
+            { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setPassword("1234567890123456")), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setRole("wrong")), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setScreenName("")), 400 },
             { new UpdatePlayerRequestDto(TestDataProvider.getTestPlayer().setScreenName(null)), 400 }
@@ -91,6 +94,35 @@ public class UpdatePlayerNegativeTest {
             dto
         );
         assertEquals(resp.getStatusCode(), 403, "Wrong editor should not be able to update");
+    }
+
+    @Test(enabled = false)
+    @Issue("BUG-14 Duplicate screenNames allowed in update request")
+    @Description("Update player with duplicate screenName should return error")
+    public void updatePlayerWithDuplicateScreenNameTest() {
+        Player player1 = TestDataProvider.getTestPlayer();
+        Long id1 = createPlayerAndGetId(player1);
+
+        Player player2 = TestDataProvider.getTestPlayer();
+        Long id2 = createPlayerAndGetId(player2);
+
+        UpdatePlayerRequestDto updateDto = new UpdatePlayerRequestDto(player2.setScreenName(player1.getScreenName()));
+        Response response = interviewServiceClient.updatePlayer(editor, id2, updateDto);
+        assertEquals(response.getStatusCode(), 409, "Updating with duplicate screenName should fail");
+    }
+
+    @Test
+    @Description("Update player with duplicate login should return error")
+    public void updatePlayerWithDuplicateLoginTest() {
+        Player player1 = TestDataProvider.getTestPlayer();
+        Long id1 = createPlayerAndGetId(player1);
+
+        Player player2 = TestDataProvider.getTestPlayer();
+        Long id2 = createPlayerAndGetId(player2);
+
+        UpdatePlayerRequestDto updateDto = new UpdatePlayerRequestDto(player2.setLogin(player1.getLogin()));
+        Response response = interviewServiceClient.updatePlayer(editor, id2, updateDto);
+        assertEquals(response.getStatusCode(), 409, "Updating with duplicate login should fail");
     }
 
     private Long createPlayerAndGetId(Player player) {

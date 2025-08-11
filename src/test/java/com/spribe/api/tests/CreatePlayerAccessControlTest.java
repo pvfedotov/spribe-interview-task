@@ -49,7 +49,7 @@ public class CreatePlayerAccessControlTest {
     @Test(dataProvider = "roleCreateMatrix")
     public void createPlayerAccessControlTest(String editorRole, String newPlayerRole, int expectedStatus) {
         String editorLogin;
-        Long editorId = null;
+        Long editorId;
 
         // Setup editor
         if (editorRole.equals("supervisor")) {
@@ -64,7 +64,6 @@ public class CreatePlayerAccessControlTest {
         // Setup player to be created
         Player newPlayer;
         if (editorRole.equals("user") && newPlayerRole.equals("user")) {
-            // "user" can create only themselves
             newPlayer = new Player()
                 .setId(editorId)
                 .setLogin(editorLogin)

@@ -33,19 +33,16 @@ public class CreatePlayerTest {
     @DataProvider(name = "playerAccounts", parallel = true)
     public static Object[][] playerAccounts() {
         return new Object[][]{
-            //Restriction on player age below 17 under 60?
             //{ TestDataProvider.getTestPlayer().setAge(0).setGender("male").setRole("user") },
             //{ TestDataProvider.getTestPlayer().setAge(99).setGender("female").setRole("admin") },
             { TestDataProvider.getTestPlayer().setAge(17).setGender("male").setRole("user") },
             { TestDataProvider.getTestPlayer().setAge(60).setGender("female").setRole("admin") },
-            //Supervisor unable to create supervisors?
-            //{ TestDataProvider.getTestPlayer().setAge(50).setGender("non-binary").setRole("supervisor") },
-            { TestDataProvider.getTestPlayer().setAge(50).setGender("non-binary").setRole("admin") },
-            { TestDataProvider.getTestPlayer().setAge(20).setGender("random").setRole("user").setPassword(null) },
-            { TestDataProvider.getTestPlayer().setGender(" !\"#$%&'()*+,-.\\/:;<=>?@[]^_`{|}~") },
+            { TestDataProvider.getTestPlayer().setAge(20).setGender("male").setRole("user").setPassword(null) },
             { TestDataProvider.getTestPlayer().setLogin(" !\"#$%&'()*+,-.\\/:;<=>?@[]^_`{|}~") },
             { TestDataProvider.getTestPlayer().setScreenName(" !\"#$%&'()*+,-.\\/:;<=>?@[]^_`{|}~") },
-            { TestDataProvider.getTestPlayer().setPassword(" !\"#$%&'()*+,-.\\/:;<=>?@[]^_`{|}~") }
+            { TestDataProvider.getTestPlayer().setPassword(" !\"#$%&'()*+,-.\\/:;<=>?@[]^_`{|}~") },
+            { TestDataProvider.getTestPlayer().setPassword("1234567") },
+            { TestDataProvider.getTestPlayer().setPassword("123456789012345") }
         };
     }
 
